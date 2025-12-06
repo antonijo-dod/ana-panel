@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlausableIndexRouteImport } from './routes/plausable.index'
 import { Route as CoolifyIndexRouteImport } from './routes/coolify.index'
 import { Route as CoolifyCoolifyIdRouteImport } from './routes/coolify.$coolifyId'
 
@@ -22,6 +23,11 @@ const ContactRoute = ContactRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlausableIndexRoute = PlausableIndexRouteImport.update({
+  id: '/plausable/',
+  path: '/plausable/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoolifyIndexRoute = CoolifyIndexRouteImport.update({
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/coolify/$coolifyId': typeof CoolifyCoolifyIdRoute
   '/coolify': typeof CoolifyIndexRoute
+  '/plausable': typeof PlausableIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/coolify/$coolifyId': typeof CoolifyCoolifyIdRoute
   '/coolify': typeof CoolifyIndexRoute
+  '/plausable': typeof PlausableIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,25 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/coolify/$coolifyId': typeof CoolifyCoolifyIdRoute
   '/coolify/': typeof CoolifyIndexRoute
+  '/plausable/': typeof PlausableIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/coolify/$coolifyId' | '/coolify'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/coolify/$coolifyId'
+    | '/coolify'
+    | '/plausable'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/coolify/$coolifyId' | '/coolify'
-  id: '__root__' | '/' | '/contact' | '/coolify/$coolifyId' | '/coolify/'
+  to: '/' | '/contact' | '/coolify/$coolifyId' | '/coolify' | '/plausable'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/coolify/$coolifyId'
+    | '/coolify/'
+    | '/plausable/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +87,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CoolifyCoolifyIdRoute: typeof CoolifyCoolifyIdRoute
   CoolifyIndexRoute: typeof CoolifyIndexRoute
+  PlausableIndexRoute: typeof PlausableIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -83,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plausable/': {
+      id: '/plausable/'
+      path: '/plausable'
+      fullPath: '/plausable'
+      preLoaderRoute: typeof PlausableIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/coolify/': {
@@ -107,6 +135,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CoolifyCoolifyIdRoute: CoolifyCoolifyIdRoute,
   CoolifyIndexRoute: CoolifyIndexRoute,
+  PlausableIndexRoute: PlausableIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
