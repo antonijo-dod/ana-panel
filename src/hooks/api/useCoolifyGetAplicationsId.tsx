@@ -2,10 +2,10 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query"
 
 const URL = import.meta.env.VITE_COOLIFY_API
 
-export const coolifyGetAplicationsQueryOptions = queryOptions({
-    queryKey: ['coolifyAplications'],
+export const coolifyGetAplicationsIdQueryOptions = (id: string) => queryOptions({
+    queryKey: ['coolifyAplications', id],
     queryFn: async () => {
-        const response = await fetch(`${URL}/api/v1/applications`, {
+        const response = await fetch(`${URL}/api/v1/applications/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -19,10 +19,8 @@ export const coolifyGetAplicationsQueryOptions = queryOptions({
     }
 })
 
-
-export const useCoolifyGetAplications = () => {
-
-    const coolifyAplications = useSuspenseQuery(coolifyGetAplicationsQueryOptions)
+export const useCoolifyGetAplicationsId = (id: string) => {
+    const coolifyAplications = useSuspenseQuery(coolifyGetAplicationsIdQueryOptions(id))
 
     return coolifyAplications
 }
