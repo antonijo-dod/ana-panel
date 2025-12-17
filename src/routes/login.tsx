@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useCoolifyApplicationLogs } from '@/hooks/api/useAuthLogin'
 import { useForm } from 'react-hook-form'
+import { useLoginStore } from '@/providers/login-provider'
 
 export const Route = createFileRoute('/login')({
     component: LoginComponent,
@@ -9,9 +10,16 @@ export const Route = createFileRoute('/login')({
 export function LoginComponent() {
     const auth = useCoolifyApplicationLogs()
     const { register, handleSubmit } = useForm()
+    const { isLoggedIn, login } = useLoginStore((store) => store)
+
+    console.log('isLoggedIn', isLoggedIn)
 
     const handleFormSubmit = async ({ username, password }: { username: string, password: string }) => {
-        await auth.mutate({ username, password })
+        await auth.mutate({ username, password }, {
+            onSuccess() {
+                login()
+            },
+        })
     }
 
     const isLoggingIn = false

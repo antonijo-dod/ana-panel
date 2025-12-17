@@ -5,6 +5,7 @@ import type { QueryClient } from '@tanstack/react-query'
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { LoginComponent } from './login'
+import { useLoginStore } from '@/providers/login-provider'
 
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient
@@ -22,9 +23,13 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
 
+    const { isLoggedIn } = useLoginStore((store) => store)
+
     // For demo purposes, redirect to login page
 
-    return (<LoginComponent />)
+    if (!isLoggedIn) {
+        return <LoginComponent />
+    }
 
     return (
         <SidebarProvider>

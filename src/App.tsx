@@ -3,6 +3,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { LoginStoreProvider } from '@/providers/login-provider'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
@@ -34,7 +35,9 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <LoginStoreProvider>
+          <RouterProvider router={router} />
+        </LoginStoreProvider>
       </QueryClientProvider>
     </>
   )
