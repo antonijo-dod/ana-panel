@@ -1,7 +1,8 @@
-import { type ReactNode, createContext, useState, useContext } from 'react'
+import { type ReactNode, createContext, useContext, useRef } from 'react'
 import { useStore } from 'zustand'
 
 import { type LoginStore, createLoginStore } from '@/stores/login'
+import { setLoginStore } from '@/hooks/axiosInstance'
 
 export type LoginStoreApi = ReturnType<typeof createLoginStore>
 
@@ -16,9 +17,16 @@ export interface LoginStoreProviderProps {
 export const LoginStoreProvider = ({
     children,
 }: LoginStoreProviderProps) => {
-    const [store] = useState(() => createLoginStore())
+    const storeRef = useRef<LoginStoreApi>(undefined);
+
+    if (!storeRef.current) {
+        const newStore = createLoginStore();
+        setLoginStore(newStore);
+        storeRef.current = newStore;
+    }
+
     return (
-        <LoginStoreContext.Provider value={store}>
+        <LoginStoreContext.Provider value={storeRef.current}>
             {children}
         </LoginStoreContext.Provider>
     )

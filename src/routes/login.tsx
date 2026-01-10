@@ -16,8 +16,8 @@ export function LoginComponent() {
 
     const handleFormSubmit = async ({ username, password }: { username: string, password: string }) => {
         await auth.mutate({ username, password }, {
-            onSuccess() {
-                login()
+            onSuccess(data) {
+                login({ coolifyId: data.coolifyId })
             },
         })
     }

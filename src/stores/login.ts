@@ -2,10 +2,11 @@ import { createStore } from 'zustand/vanilla'
 
 export type LoginState = {
     isLoggedIn: boolean
+    coolifyId?: string
 }
 
 export type LoginActions = {
-    login: () => void
+    login: ({ coolifyId }: { coolifyId: string }) => void
     logout: () => void
 }
 
@@ -20,7 +21,9 @@ export const createLoginStore = (
 ) => {
     return createStore<LoginStore>()((set) => ({
         ...initState,
-        login: () => set(() => ({ isLoggedIn: true })),
+        login: ({ coolifyId }) => {
+            set(() => ({ isLoggedIn: true, coolifyId: coolifyId }));
+        },
         logout: () => set(() => ({ isLoggedIn: false })),
     }))
 }
