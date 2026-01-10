@@ -1,21 +1,16 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query"
+import axiosInstance from "@/hooks/axiosInstance"
 
 const URL = import.meta.env.VITE_COOLIFY_API
 
 export const coolifyApplicationLogsQueryOptions = (id: string) => queryOptions({
     queryKey: ['coolifyApplicationLogs', id],
     queryFn: async () => {
-        const response = await fetch(`${URL}/api/v1/applications/${id}/logs`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${import.meta.env.VITE_COOLIFY_TOKEN_KEY}`
-            },
-        })
-        if (!response.ok) {
+        const response = await axiosInstance.get(`${URL}/api/v1/applications/${id}/logs`)
+        if (response.status !== 200) {
             throw new Error('Network response was not ok')
         }
-        return response.json()
+        return response.data
     },
     refetchInterval: 5000,
 })
