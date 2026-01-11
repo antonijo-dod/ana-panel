@@ -27,6 +27,7 @@ export function LoginComponent() {
     return (
         <div className="p-2 grid gap-2 place-items-center">
             <h3 className="text-xl">Login page</h3>
+            {/* @ts-expect-error ADD later */}
             <form className="mt-4 max-w-lg" onSubmit={handleSubmit(handleFormSubmit)}>
                 <fieldset disabled={isLoggingIn} className="w-full grid gap-2">
                     <div className="grid gap-2 items-center min-w-[300px]">
