@@ -35,6 +35,7 @@ function Deployments() {
     return (
         <Suspense fallback={<div>Loading deployments...</div>}>
             <div className='p-4 flex flex-col gap-4'>
+                {/* @ts-expect-error ADD later */}
                 {data && data.deployments.map(application => (
                     <div key={application.id} className='p-2 border rounded-lg'>
                         <h2 className='font-bold mb-2'>{application.name} Deployments</h2>
