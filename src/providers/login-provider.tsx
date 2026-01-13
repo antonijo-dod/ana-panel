@@ -2,7 +2,8 @@ import { type ReactNode, createContext, useContext, useRef } from 'react'
 import { useStore } from 'zustand'
 
 import { type LoginStore, createLoginStore } from '@/stores/login'
-import { setLoginStore } from '@/hooks/axiosInstance'
+import { setLoginStore } from '@/hooks/axiosCoolifyInstance'
+import { setLoginStore as setPlausableLoginStore } from '@/hooks/axiosPlausableInstance'
 
 export type LoginStoreApi = ReturnType<typeof createLoginStore>
 
@@ -22,6 +23,7 @@ export const LoginStoreProvider = ({
     if (!storeRef.current) {
         const newStore = createLoginStore();
         setLoginStore(newStore);
+        setPlausableLoginStore(newStore);
         storeRef.current = newStore;
     }
 
