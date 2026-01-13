@@ -7,18 +7,16 @@ const axiosInstance = axios.create();
 let loginStore: LoginStoreApi | null = null;
 
 export const setLoginStore = (store: LoginStoreApi) => {
-    console.log('setLoginStore called, store:', store);
     loginStore = store;
-    console.log('Store state after setting:', loginStore?.getState());
 };
 
 axiosInstance.interceptors.request.use((config) => {
     if (loginStore) {
-        const { coolifyId } = loginStore.getState();
+        const { plausableId } = loginStore.getState();
 
-        if (coolifyId) {
+        if (plausableId) {
             config.headers = config.headers || {};
-            config.headers['Authorization'] = `Bearer ${coolifyId}`;
+            config.headers['Authorization'] = `Bearer ${plausableId}`;
         }
     }
     console.log('Nope')
